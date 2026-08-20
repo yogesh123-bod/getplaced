@@ -37,16 +37,15 @@ function ResultPage() {
     queryKey: ["test-result", id, attempt, session.userId],
     enabled: !!session.userId,
     queryFn: async () => {
-      let query = supabase
-        .from("test_attempts")
-        .select("*")
-        .eq("user_id", session.userId!)
-        .eq("test_id", id)
-        .not("submitted_at", "is", null)
-        .order("submitted_at", { ascending: false })
-        .limit(1);
-      if (attempt) query = supabase.from("test_attempts").select("*").eq("id", attempt).limit(1);
-      const { data: attempts, error } = await query;
+      const base = supabase.from("test_attempts").select("*");
+      const { data: attempts, error } = attempt
+        ? await base.eq("id", attempt).limit(1)
+        : await base
+            .eq("user_id", session.userId!)
+            .eq("test_id", id)
+            .not("submitted_at", "is", null)
+            .order("submitted_at", { ascending: false })
+            .limit(1);
       if (error) throw error;
       const row = attempts?.[0];
       if (!row) return null;
@@ -88,7 +87,7 @@ function ResultPage() {
 
   return (
     <StudentShell>
-      <PageHeader title="Test Result" subtitle={data.test?.name ?? undefined} />
+      <PageHeader title="Test Result" subtitle={data.test?.name ?? ""} />
       <div className="mx-auto max-w-3xl space-y-4 px-4 py-4 lg:px-8">
         <section className="card-soft gradient-brand p-5 text-center text-primary-foreground">
           <p className="text-xs uppercase tracking-wide opacity-80">Score</p>
