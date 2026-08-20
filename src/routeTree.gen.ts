@@ -30,6 +30,7 @@ import { Route as AuthenticatedAdminCompaniesRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminDashboardRouteImport } from './routes/_authenticated/admin.dashboard'
 import { Route as AuthenticatedAdminJobsRouteImport } from './routes/_authenticated/admin.jobs'
 import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin.notifications'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminStudentsRouteImport } from './routes/_authenticated/admin.students'
 import { Route as AuthenticatedAdminTestsRouteImport } from './routes/_authenticated/admin.tests'
 import { Route as AuthenticatedJobsIndexRouteImport } from './routes/_authenticated/jobs.index'
@@ -155,6 +156,12 @@ const AuthenticatedAdminNotificationsRoute =
     path: '/admin/notifications',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/admin/settings',
+    path: '/admin/settings',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminStudentsRoute =
   AuthenticatedAdminStudentsRouteImport.update({
     id: '/admin/students',
@@ -220,6 +227,7 @@ export interface FileRoutesByFullPath {
   '/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
   '/admin/jobs': typeof AuthenticatedAdminJobsRoute
   '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/students': typeof AuthenticatedAdminStudentsRoute
   '/admin/tests': typeof AuthenticatedAdminTestsRoute
   '/jobs/$id': typeof AuthenticatedJobsIdRoute
@@ -250,6 +258,7 @@ export interface FileRoutesByTo {
   '/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
   '/admin/jobs': typeof AuthenticatedAdminJobsRoute
   '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/admin/students': typeof AuthenticatedAdminStudentsRoute
   '/admin/tests': typeof AuthenticatedAdminTestsRoute
   '/jobs/$id': typeof AuthenticatedJobsIdRoute
@@ -282,6 +291,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
   '/_authenticated/admin/jobs': typeof AuthenticatedAdminJobsRoute
   '/_authenticated/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
   '/_authenticated/admin/students': typeof AuthenticatedAdminStudentsRoute
   '/_authenticated/admin/tests': typeof AuthenticatedAdminTestsRoute
   '/_authenticated/jobs/$id': typeof AuthenticatedJobsIdRoute
@@ -314,6 +324,7 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/jobs'
     | '/admin/notifications'
+    | '/admin/settings'
     | '/admin/students'
     | '/admin/tests'
     | '/jobs/$id'
@@ -344,6 +355,7 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/jobs'
     | '/admin/notifications'
+    | '/admin/settings'
     | '/admin/students'
     | '/admin/tests'
     | '/jobs/$id'
@@ -375,6 +387,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/dashboard'
     | '/_authenticated/admin/jobs'
     | '/_authenticated/admin/notifications'
+    | '/_authenticated/admin/settings'
     | '/_authenticated/admin/students'
     | '/_authenticated/admin/tests'
     | '/_authenticated/jobs/$id'
@@ -544,6 +557,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminNotificationsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/students': {
       id: '/_authenticated/admin/students'
       path: '/admin/students'
@@ -618,6 +638,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminDashboardRoute: typeof AuthenticatedAdminDashboardRoute
   AuthenticatedAdminJobsRoute: typeof AuthenticatedAdminJobsRoute
   AuthenticatedAdminNotificationsRoute: typeof AuthenticatedAdminNotificationsRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminStudentsRoute: typeof AuthenticatedAdminStudentsRoute
   AuthenticatedAdminTestsRoute: typeof AuthenticatedAdminTestsRoute
   AuthenticatedJobsIdRoute: typeof AuthenticatedJobsIdRoute
@@ -644,6 +665,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminDashboardRoute: AuthenticatedAdminDashboardRoute,
   AuthenticatedAdminJobsRoute: AuthenticatedAdminJobsRoute,
   AuthenticatedAdminNotificationsRoute: AuthenticatedAdminNotificationsRoute,
+  AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminStudentsRoute: AuthenticatedAdminStudentsRoute,
   AuthenticatedAdminTestsRoute: AuthenticatedAdminTestsRoute,
   AuthenticatedJobsIdRoute: AuthenticatedJobsIdRoute,
