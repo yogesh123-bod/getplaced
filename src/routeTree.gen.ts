@@ -24,6 +24,10 @@ import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authent
 import { Route as AuthenticatedAccountEditRouteImport } from './routes/_authenticated/account.edit'
 import { Route as AuthenticatedJobsIndexRouteImport } from './routes/_authenticated/jobs.index'
 import { Route as AuthenticatedJobsIdRouteImport } from './routes/_authenticated/jobs.$id'
+import { Route as AuthenticatedTestsIndexRouteImport } from './routes/_authenticated/tests.index'
+import { Route as AuthenticatedTestsIdIndexRouteImport } from './routes/_authenticated/tests.$id.index'
+import { Route as AuthenticatedTestsIdAttemptRouteImport } from './routes/_authenticated/tests.$id.attempt'
+import { Route as AuthenticatedTestsIdResultRouteImport } from './routes/_authenticated/tests.$id.result'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -104,6 +108,29 @@ const AuthenticatedJobsIdRoute = AuthenticatedJobsIdRouteImport.update({
   path: '/jobs/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTestsIndexRoute = AuthenticatedTestsIndexRouteImport.update({
+  id: '/tests/',
+  path: '/tests/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTestsIdIndexRoute =
+  AuthenticatedTestsIdIndexRouteImport.update({
+    id: '/tests/$id/',
+    path: '/tests/$id/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTestsIdAttemptRoute =
+  AuthenticatedTestsIdAttemptRouteImport.update({
+    id: '/tests/$id/attempt',
+    path: '/tests/$id/attempt',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTestsIdResultRoute =
+  AuthenticatedTestsIdResultRouteImport.update({
+    id: '/tests/$id/result',
+    path: '/tests/$id/result',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -120,6 +147,10 @@ export interface FileRoutesByFullPath {
   '/jobs/$id': typeof AuthenticatedJobsIdRoute
   '/account/': typeof AuthenticatedAccountIndexRoute
   '/jobs/': typeof AuthenticatedJobsIndexRoute
+  '/tests/': typeof AuthenticatedTestsIndexRoute
+  '/tests/$id/attempt': typeof AuthenticatedTestsIdAttemptRoute
+  '/tests/$id/result': typeof AuthenticatedTestsIdResultRoute
+  '/tests/$id/': typeof AuthenticatedTestsIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -136,6 +167,10 @@ export interface FileRoutesByTo {
   '/jobs/$id': typeof AuthenticatedJobsIdRoute
   '/account': typeof AuthenticatedAccountIndexRoute
   '/jobs': typeof AuthenticatedJobsIndexRoute
+  '/tests': typeof AuthenticatedTestsIndexRoute
+  '/tests/$id/attempt': typeof AuthenticatedTestsIdAttemptRoute
+  '/tests/$id/result': typeof AuthenticatedTestsIdResultRoute
+  '/tests/$id': typeof AuthenticatedTestsIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -154,6 +189,10 @@ export interface FileRoutesById {
   '/_authenticated/jobs/$id': typeof AuthenticatedJobsIdRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
   '/_authenticated/jobs/': typeof AuthenticatedJobsIndexRoute
+  '/_authenticated/tests/': typeof AuthenticatedTestsIndexRoute
+  '/_authenticated/tests/$id/attempt': typeof AuthenticatedTestsIdAttemptRoute
+  '/_authenticated/tests/$id/result': typeof AuthenticatedTestsIdResultRoute
+  '/_authenticated/tests/$id/': typeof AuthenticatedTestsIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -172,6 +211,10 @@ export interface FileRouteTypes {
     | '/jobs/$id'
     | '/account/'
     | '/jobs/'
+    | '/tests/'
+    | '/tests/$id/attempt'
+    | '/tests/$id/result'
+    | '/tests/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -188,6 +231,10 @@ export interface FileRouteTypes {
     | '/jobs/$id'
     | '/account'
     | '/jobs'
+    | '/tests'
+    | '/tests/$id/attempt'
+    | '/tests/$id/result'
+    | '/tests/$id'
   id:
     | '__root__'
     | '/'
@@ -205,6 +252,10 @@ export interface FileRouteTypes {
     | '/_authenticated/jobs/$id'
     | '/_authenticated/account/'
     | '/_authenticated/jobs/'
+    | '/_authenticated/tests/'
+    | '/_authenticated/tests/$id/attempt'
+    | '/_authenticated/tests/$id/result'
+    | '/_authenticated/tests/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -323,6 +374,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedJobsIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/tests/': {
+      id: '/_authenticated/tests/'
+      path: '/tests'
+      fullPath: '/tests/'
+      preLoaderRoute: typeof AuthenticatedTestsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tests/$id/': {
+      id: '/_authenticated/tests/$id/'
+      path: '/tests/$id'
+      fullPath: '/tests/$id/'
+      preLoaderRoute: typeof AuthenticatedTestsIdIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tests/$id/attempt': {
+      id: '/_authenticated/tests/$id/attempt'
+      path: '/tests/$id/attempt'
+      fullPath: '/tests/$id/attempt'
+      preLoaderRoute: typeof AuthenticatedTestsIdAttemptRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tests/$id/result': {
+      id: '/_authenticated/tests/$id/result'
+      path: '/tests/$id/result'
+      fullPath: '/tests/$id/result'
+      preLoaderRoute: typeof AuthenticatedTestsIdResultRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -336,6 +415,10 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedJobsIdRoute: typeof AuthenticatedJobsIdRoute
   AuthenticatedAccountIndexRoute: typeof AuthenticatedAccountIndexRoute
   AuthenticatedJobsIndexRoute: typeof AuthenticatedJobsIndexRoute
+  AuthenticatedTestsIndexRoute: typeof AuthenticatedTestsIndexRoute
+  AuthenticatedTestsIdAttemptRoute: typeof AuthenticatedTestsIdAttemptRoute
+  AuthenticatedTestsIdResultRoute: typeof AuthenticatedTestsIdResultRoute
+  AuthenticatedTestsIdIndexRoute: typeof AuthenticatedTestsIdIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -348,6 +431,10 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedJobsIdRoute: AuthenticatedJobsIdRoute,
   AuthenticatedAccountIndexRoute: AuthenticatedAccountIndexRoute,
   AuthenticatedJobsIndexRoute: AuthenticatedJobsIndexRoute,
+  AuthenticatedTestsIndexRoute: AuthenticatedTestsIndexRoute,
+  AuthenticatedTestsIdAttemptRoute: AuthenticatedTestsIdAttemptRoute,
+  AuthenticatedTestsIdResultRoute: AuthenticatedTestsIdResultRoute,
+  AuthenticatedTestsIdIndexRoute: AuthenticatedTestsIdIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
