@@ -22,6 +22,7 @@ import { Route as AuthenticatedResumeRouteImport } from './routes/_authenticated
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated/account.index'
 import { Route as AuthenticatedAccountEditRouteImport } from './routes/_authenticated/account.edit'
+import { Route as AuthenticatedAdminDashboardRouteImport } from './routes/_authenticated/admin.dashboard'
 import { Route as AuthenticatedJobsIndexRouteImport } from './routes/_authenticated/jobs.index'
 import { Route as AuthenticatedJobsIdRouteImport } from './routes/_authenticated/jobs.$id'
 import { Route as AuthenticatedTestsIndexRouteImport } from './routes/_authenticated/tests.index'
@@ -98,6 +99,12 @@ const AuthenticatedAccountEditRoute =
     path: '/account/edit',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminDashboardRoute =
+  AuthenticatedAdminDashboardRouteImport.update({
+    id: '/admin/dashboard',
+    path: '/admin/dashboard',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedJobsIndexRoute = AuthenticatedJobsIndexRouteImport.update({
   id: '/jobs/',
   path: '/jobs/',
@@ -144,6 +151,7 @@ export interface FileRoutesByFullPath {
   '/resume': typeof AuthenticatedResumeRoute
   '/admin/login': typeof AdminLoginRoute
   '/account/edit': typeof AuthenticatedAccountEditRoute
+  '/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
   '/jobs/$id': typeof AuthenticatedJobsIdRoute
   '/account/': typeof AuthenticatedAccountIndexRoute
   '/jobs/': typeof AuthenticatedJobsIndexRoute
@@ -164,6 +172,7 @@ export interface FileRoutesByTo {
   '/resume': typeof AuthenticatedResumeRoute
   '/admin/login': typeof AdminLoginRoute
   '/account/edit': typeof AuthenticatedAccountEditRoute
+  '/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
   '/jobs/$id': typeof AuthenticatedJobsIdRoute
   '/account': typeof AuthenticatedAccountIndexRoute
   '/jobs': typeof AuthenticatedJobsIndexRoute
@@ -186,6 +195,7 @@ export interface FileRoutesById {
   '/_authenticated/resume': typeof AuthenticatedResumeRoute
   '/admin/login': typeof AdminLoginRoute
   '/_authenticated/account/edit': typeof AuthenticatedAccountEditRoute
+  '/_authenticated/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
   '/_authenticated/jobs/$id': typeof AuthenticatedJobsIdRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
   '/_authenticated/jobs/': typeof AuthenticatedJobsIndexRoute
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | '/resume'
     | '/admin/login'
     | '/account/edit'
+    | '/admin/dashboard'
     | '/jobs/$id'
     | '/account/'
     | '/jobs/'
@@ -228,6 +239,7 @@ export interface FileRouteTypes {
     | '/resume'
     | '/admin/login'
     | '/account/edit'
+    | '/admin/dashboard'
     | '/jobs/$id'
     | '/account'
     | '/jobs'
@@ -249,6 +261,7 @@ export interface FileRouteTypes {
     | '/_authenticated/resume'
     | '/admin/login'
     | '/_authenticated/account/edit'
+    | '/_authenticated/admin/dashboard'
     | '/_authenticated/jobs/$id'
     | '/_authenticated/account/'
     | '/_authenticated/jobs/'
@@ -360,6 +373,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountEditRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/dashboard': {
+      id: '/_authenticated/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AuthenticatedAdminDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/jobs/': {
       id: '/_authenticated/jobs/'
       path: '/jobs'
@@ -412,6 +432,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedResumeRoute: typeof AuthenticatedResumeRoute
   AuthenticatedAccountEditRoute: typeof AuthenticatedAccountEditRoute
+  AuthenticatedAdminDashboardRoute: typeof AuthenticatedAdminDashboardRoute
   AuthenticatedJobsIdRoute: typeof AuthenticatedJobsIdRoute
   AuthenticatedAccountIndexRoute: typeof AuthenticatedAccountIndexRoute
   AuthenticatedJobsIndexRoute: typeof AuthenticatedJobsIndexRoute
@@ -428,6 +449,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedResumeRoute: AuthenticatedResumeRoute,
   AuthenticatedAccountEditRoute: AuthenticatedAccountEditRoute,
+  AuthenticatedAdminDashboardRoute: AuthenticatedAdminDashboardRoute,
   AuthenticatedJobsIdRoute: AuthenticatedJobsIdRoute,
   AuthenticatedAccountIndexRoute: AuthenticatedAccountIndexRoute,
   AuthenticatedJobsIndexRoute: AuthenticatedJobsIndexRoute,
