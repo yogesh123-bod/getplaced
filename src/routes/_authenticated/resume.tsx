@@ -5,6 +5,7 @@ import { Download, FileText, Plus, Trash2, Upload, X } from "lucide-react";
 import { toast } from "sonner";
 import { StudentShell, PageHeader, NotificationBell } from "@/components/placement/StudentShell";
 import { supabase } from "@/integrations/supabase/client";
+import type { TablesUpdate } from "@/integrations/supabase/types";
 import { useSession } from "@/lib/session";
 import { initials } from "@/lib/format";
 import { Button } from "@/components/ui/button";
@@ -59,7 +60,7 @@ function ResumePage() {
   const refresh = () => queryClient.invalidateQueries({ queryKey: ["session"] });
 
   const saveProfile = useMutation({
-    mutationFn: async (patch: Record<string, unknown>) => {
+    mutationFn: async (patch: TablesUpdate<"student_profiles">) => {
       const { error } = await supabase
         .from("student_profiles")
         .update(patch)
@@ -115,7 +116,10 @@ function ResumePage() {
     const { data, error } = await supabase.storage
       .from("resumes")
       .createSignedUrl(profile.resume_url, 60);
-    if (error || !data) return toast.error("Could not prepare download");
+    if (error || !data) {
+      toast.error("Could not prepare download");
+      return;
+    }
     window.open(data.signedUrl, "_blank", "noopener");
   };
 
