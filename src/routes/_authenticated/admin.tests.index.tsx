@@ -8,27 +8,27 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { downloadCsv } from "@/lib/format";
 
-export const Route = createFileRoute("/_authenticated/admin/jobs")({
+export const Route = createFileRoute("/_authenticated/admin/tests/")({
   head: () => ({
     meta: [
-      { title: "Jobs — Placement Cell" },
-      { name: "description", content: "Manage placement drives, eligibility criteria and deadlines." },
-      { property: "og:title", content: "Jobs — Placement Cell" },
-      { property: "og:description", content: "Manage placement drives, eligibility criteria and deadlines." },
+      { title: "Tests — Placement Cell" },
+      { name: "description", content: "Manage practice test papers, categories and publishing." },
+      { property: "og:title", content: "Tests — Placement Cell" },
+      { property: "og:description", content: "Manage practice test papers, categories and publishing." },
     ],
   }),
   component: Page,
 });
 
-const COLUMNS = ["title", "role_tag", "location", "package_lpa", "openings", "min_cgpa", "deadline", "status"] as const;
+const COLUMNS = ["name", "category", "course", "difficulty", "duration_min", "published"] as const;
 
 function Page() {
   const [search, setSearch] = useState("");
 
   const { data, isLoading } = useQuery({
-    queryKey: ["admin-jobs"],
+    queryKey: ["admin-tests"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("jobs").select("title, role_tag, location, package_lpa, openings, min_cgpa, deadline, status").limit(500);
+      const { data, error } = await supabase.from("tests").select("name, category, course, difficulty, duration_min, published").limit(500);
       if (error) throw error;
       return (data ?? []) as unknown as Record<string, unknown>[];
     },
@@ -41,15 +41,15 @@ function Page() {
 
   return (
     <AdminShell
-      title="Jobs"
-      subtitle="Placement drives"
+      title="Tests"
+      subtitle="Practice tests"
       actions={
         <Button
           variant="secondary"
           size="sm"
           onClick={() =>
             downloadCsv(
-              "jobs.csv",
+              "tests.csv",
               rows.map((r) => Object.fromEntries(COLUMNS.map((c) => [c, r[c] ?? ""]))),
             )
           }
@@ -63,9 +63,9 @@ function Page() {
         value={search}
         maxLength={80}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search jobs..."
+        placeholder="Search tests..."
         className="mb-4 max-w-sm"
-        aria-label="Search jobs"
+        aria-label="Search tests"
       />
       {isLoading ? (
         <Skeleton className="h-64 w-full rounded-2xl" />
