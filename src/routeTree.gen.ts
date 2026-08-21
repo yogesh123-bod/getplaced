@@ -37,6 +37,7 @@ import { Route as AuthenticatedJobsIdRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedTestsIndexRouteImport } from './routes/_authenticated/tests.index'
 import { Route as AuthenticatedAdminJobsIndexRouteImport } from './routes/_authenticated/admin.jobs.index'
 import { Route as AuthenticatedAdminStudentsIndexRouteImport } from './routes/_authenticated/admin.students.index'
+import { Route as AuthenticatedAdminStudentsUserIdRouteImport } from './routes/_authenticated/admin.students.$userId'
 import { Route as AuthenticatedAdminStudentsImportRouteImport } from './routes/_authenticated/admin.students.import'
 import { Route as AuthenticatedAdminTestsIndexRouteImport } from './routes/_authenticated/admin.tests.index'
 import { Route as AuthenticatedTestsIdIndexRouteImport } from './routes/_authenticated/tests.$id.index'
@@ -197,6 +198,12 @@ const AuthenticatedAdminStudentsIndexRoute =
     path: '/students/',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminStudentsUserIdRoute =
+  AuthenticatedAdminStudentsUserIdRouteImport.update({
+    id: '/students/$userId',
+    path: '/students/$userId',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminStudentsImportRoute =
   AuthenticatedAdminStudentsImportRouteImport.update({
     id: '/students/import',
@@ -254,6 +261,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/jobs/': typeof AuthenticatedJobsIndexRoute
   '/tests/': typeof AuthenticatedTestsIndexRoute
+  '/admin/students/$userId': typeof AuthenticatedAdminStudentsUserIdRoute
   '/admin/students/import': typeof AuthenticatedAdminStudentsImportRoute
   '/tests/$id/attempt': typeof AuthenticatedTestsIdAttemptRoute
   '/tests/$id/result': typeof AuthenticatedTestsIdResultRoute
@@ -287,6 +295,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/jobs': typeof AuthenticatedJobsIndexRoute
   '/tests': typeof AuthenticatedTestsIndexRoute
+  '/admin/students/$userId': typeof AuthenticatedAdminStudentsUserIdRoute
   '/admin/students/import': typeof AuthenticatedAdminStudentsImportRoute
   '/tests/$id/attempt': typeof AuthenticatedTestsIdAttemptRoute
   '/tests/$id/result': typeof AuthenticatedTestsIdResultRoute
@@ -323,6 +332,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/jobs/': typeof AuthenticatedJobsIndexRoute
   '/_authenticated/tests/': typeof AuthenticatedTestsIndexRoute
+  '/_authenticated/admin/students/$userId': typeof AuthenticatedAdminStudentsUserIdRoute
   '/_authenticated/admin/students/import': typeof AuthenticatedAdminStudentsImportRoute
   '/_authenticated/tests/$id/attempt': typeof AuthenticatedTestsIdAttemptRoute
   '/_authenticated/tests/$id/result': typeof AuthenticatedTestsIdResultRoute
@@ -359,6 +369,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/jobs/'
     | '/tests/'
+    | '/admin/students/$userId'
     | '/admin/students/import'
     | '/tests/$id/attempt'
     | '/tests/$id/result'
@@ -392,6 +403,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/jobs'
     | '/tests'
+    | '/admin/students/$userId'
     | '/admin/students/import'
     | '/tests/$id/attempt'
     | '/tests/$id/result'
@@ -427,6 +439,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/'
     | '/_authenticated/jobs/'
     | '/_authenticated/tests/'
+    | '/_authenticated/admin/students/$userId'
     | '/_authenticated/admin/students/import'
     | '/_authenticated/tests/$id/attempt'
     | '/_authenticated/tests/$id/result'
@@ -643,6 +656,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminStudentsIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/students/$userId': {
+      id: '/_authenticated/admin/students/$userId'
+      path: '/students/$userId'
+      fullPath: '/admin/students/$userId'
+      preLoaderRoute: typeof AuthenticatedAdminStudentsUserIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/students/import': {
       id: '/_authenticated/admin/students/import'
       path: '/students/import'
@@ -691,6 +711,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminNotificationsRoute: typeof AuthenticatedAdminNotificationsRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminStudentsUserIdRoute: typeof AuthenticatedAdminStudentsUserIdRoute
   AuthenticatedAdminStudentsImportRoute: typeof AuthenticatedAdminStudentsImportRoute
   AuthenticatedAdminJobsIndexRoute: typeof AuthenticatedAdminJobsIndexRoute
   AuthenticatedAdminStudentsIndexRoute: typeof AuthenticatedAdminStudentsIndexRoute
@@ -707,6 +728,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminNotificationsRoute: AuthenticatedAdminNotificationsRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminStudentsUserIdRoute: AuthenticatedAdminStudentsUserIdRoute,
   AuthenticatedAdminStudentsImportRoute: AuthenticatedAdminStudentsImportRoute,
   AuthenticatedAdminJobsIndexRoute: AuthenticatedAdminJobsIndexRoute,
   AuthenticatedAdminStudentsIndexRoute: AuthenticatedAdminStudentsIndexRoute,
