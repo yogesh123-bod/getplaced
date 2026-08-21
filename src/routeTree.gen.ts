@@ -30,14 +30,14 @@ import { Route as AuthenticatedAdminApplicationsRouteImport } from './routes/_au
 import { Route as AuthenticatedAdminAuditLogsRouteImport } from './routes/_authenticated/admin.audit-logs'
 import { Route as AuthenticatedAdminCompaniesRouteImport } from './routes/_authenticated/admin.companies'
 import { Route as AuthenticatedAdminDashboardRouteImport } from './routes/_authenticated/admin.dashboard'
-import { Route as AuthenticatedAdminJobsRouteImport } from './routes/_authenticated/admin.jobs'
 import { Route as AuthenticatedAdminNotificationsRouteImport } from './routes/_authenticated/admin.notifications'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
-import { Route as AuthenticatedAdminStudentsRouteImport } from './routes/_authenticated/admin.students'
-import { Route as AuthenticatedAdminTestsRouteImport } from './routes/_authenticated/admin.tests'
 import { Route as AuthenticatedJobsIndexRouteImport } from './routes/_authenticated/jobs.index'
 import { Route as AuthenticatedJobsIdRouteImport } from './routes/_authenticated/jobs.$id'
 import { Route as AuthenticatedTestsIndexRouteImport } from './routes/_authenticated/tests.index'
+import { Route as AuthenticatedAdminJobsIndexRouteImport } from './routes/_authenticated/admin.jobs.index'
+import { Route as AuthenticatedAdminStudentsIndexRouteImport } from './routes/_authenticated/admin.students.index'
+import { Route as AuthenticatedAdminTestsIndexRouteImport } from './routes/_authenticated/admin.tests.index'
 import { Route as AuthenticatedTestsIdIndexRouteImport } from './routes/_authenticated/tests.$id.index'
 import { Route as AuthenticatedTestsIdAttemptRouteImport } from './routes/_authenticated/tests.$id.attempt'
 import { Route as AuthenticatedTestsIdResultRouteImport } from './routes/_authenticated/tests.$id.result'
@@ -157,11 +157,6 @@ const AuthenticatedAdminDashboardRoute =
     path: '/dashboard',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
-const AuthenticatedAdminJobsRoute = AuthenticatedAdminJobsRouteImport.update({
-  id: '/jobs',
-  path: '/jobs',
-  getParentRoute: () => AuthenticatedAdminRoute,
-} as any)
 const AuthenticatedAdminNotificationsRoute =
   AuthenticatedAdminNotificationsRouteImport.update({
     id: '/notifications',
@@ -174,17 +169,6 @@ const AuthenticatedAdminSettingsRoute =
     path: '/settings',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
-const AuthenticatedAdminStudentsRoute =
-  AuthenticatedAdminStudentsRouteImport.update({
-    id: '/students',
-    path: '/students',
-    getParentRoute: () => AuthenticatedAdminRoute,
-  } as any)
-const AuthenticatedAdminTestsRoute = AuthenticatedAdminTestsRouteImport.update({
-  id: '/tests',
-  path: '/tests',
-  getParentRoute: () => AuthenticatedAdminRoute,
-} as any)
 const AuthenticatedJobsIndexRoute = AuthenticatedJobsIndexRouteImport.update({
   id: '/jobs/',
   path: '/jobs/',
@@ -200,6 +184,24 @@ const AuthenticatedTestsIndexRoute = AuthenticatedTestsIndexRouteImport.update({
   path: '/tests/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminJobsIndexRoute =
+  AuthenticatedAdminJobsIndexRouteImport.update({
+    id: '/jobs/',
+    path: '/jobs/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminStudentsIndexRoute =
+  AuthenticatedAdminStudentsIndexRouteImport.update({
+    id: '/students/',
+    path: '/students/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminTestsIndexRoute =
+  AuthenticatedAdminTestsIndexRouteImport.update({
+    id: '/tests/',
+    path: '/tests/',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedTestsIdIndexRoute =
   AuthenticatedTestsIdIndexRouteImport.update({
     id: '/tests/$id/',
@@ -238,11 +240,8 @@ export interface FileRoutesByFullPath {
   '/admin/audit-logs': typeof AuthenticatedAdminAuditLogsRoute
   '/admin/companies': typeof AuthenticatedAdminCompaniesRoute
   '/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
-  '/admin/jobs': typeof AuthenticatedAdminJobsRoute
   '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
-  '/admin/students': typeof AuthenticatedAdminStudentsRoute
-  '/admin/tests': typeof AuthenticatedAdminTestsRoute
   '/jobs/$id': typeof AuthenticatedJobsIdRoute
   '/account/': typeof AuthenticatedAccountIndexRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -250,6 +249,9 @@ export interface FileRoutesByFullPath {
   '/tests/': typeof AuthenticatedTestsIndexRoute
   '/tests/$id/attempt': typeof AuthenticatedTestsIdAttemptRoute
   '/tests/$id/result': typeof AuthenticatedTestsIdResultRoute
+  '/admin/jobs/': typeof AuthenticatedAdminJobsIndexRoute
+  '/admin/students/': typeof AuthenticatedAdminStudentsIndexRoute
+  '/admin/tests/': typeof AuthenticatedAdminTestsIndexRoute
   '/tests/$id/': typeof AuthenticatedTestsIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -270,11 +272,8 @@ export interface FileRoutesByTo {
   '/admin/audit-logs': typeof AuthenticatedAdminAuditLogsRoute
   '/admin/companies': typeof AuthenticatedAdminCompaniesRoute
   '/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
-  '/admin/jobs': typeof AuthenticatedAdminJobsRoute
   '/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
-  '/admin/students': typeof AuthenticatedAdminStudentsRoute
-  '/admin/tests': typeof AuthenticatedAdminTestsRoute
   '/jobs/$id': typeof AuthenticatedJobsIdRoute
   '/account': typeof AuthenticatedAccountIndexRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -282,6 +281,9 @@ export interface FileRoutesByTo {
   '/tests': typeof AuthenticatedTestsIndexRoute
   '/tests/$id/attempt': typeof AuthenticatedTestsIdAttemptRoute
   '/tests/$id/result': typeof AuthenticatedTestsIdResultRoute
+  '/admin/jobs': typeof AuthenticatedAdminJobsIndexRoute
+  '/admin/students': typeof AuthenticatedAdminStudentsIndexRoute
+  '/admin/tests': typeof AuthenticatedAdminTestsIndexRoute
   '/tests/$id': typeof AuthenticatedTestsIdIndexRoute
 }
 export interface FileRoutesById {
@@ -305,11 +307,8 @@ export interface FileRoutesById {
   '/_authenticated/admin/audit-logs': typeof AuthenticatedAdminAuditLogsRoute
   '/_authenticated/admin/companies': typeof AuthenticatedAdminCompaniesRoute
   '/_authenticated/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
-  '/_authenticated/admin/jobs': typeof AuthenticatedAdminJobsRoute
   '/_authenticated/admin/notifications': typeof AuthenticatedAdminNotificationsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
-  '/_authenticated/admin/students': typeof AuthenticatedAdminStudentsRoute
-  '/_authenticated/admin/tests': typeof AuthenticatedAdminTestsRoute
   '/_authenticated/jobs/$id': typeof AuthenticatedJobsIdRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -317,6 +316,9 @@ export interface FileRoutesById {
   '/_authenticated/tests/': typeof AuthenticatedTestsIndexRoute
   '/_authenticated/tests/$id/attempt': typeof AuthenticatedTestsIdAttemptRoute
   '/_authenticated/tests/$id/result': typeof AuthenticatedTestsIdResultRoute
+  '/_authenticated/admin/jobs/': typeof AuthenticatedAdminJobsIndexRoute
+  '/_authenticated/admin/students/': typeof AuthenticatedAdminStudentsIndexRoute
+  '/_authenticated/admin/tests/': typeof AuthenticatedAdminTestsIndexRoute
   '/_authenticated/tests/$id/': typeof AuthenticatedTestsIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -340,11 +342,8 @@ export interface FileRouteTypes {
     | '/admin/audit-logs'
     | '/admin/companies'
     | '/admin/dashboard'
-    | '/admin/jobs'
     | '/admin/notifications'
     | '/admin/settings'
-    | '/admin/students'
-    | '/admin/tests'
     | '/jobs/$id'
     | '/account/'
     | '/admin/'
@@ -352,6 +351,9 @@ export interface FileRouteTypes {
     | '/tests/'
     | '/tests/$id/attempt'
     | '/tests/$id/result'
+    | '/admin/jobs/'
+    | '/admin/students/'
+    | '/admin/tests/'
     | '/tests/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -372,11 +374,8 @@ export interface FileRouteTypes {
     | '/admin/audit-logs'
     | '/admin/companies'
     | '/admin/dashboard'
-    | '/admin/jobs'
     | '/admin/notifications'
     | '/admin/settings'
-    | '/admin/students'
-    | '/admin/tests'
     | '/jobs/$id'
     | '/account'
     | '/admin'
@@ -384,6 +383,9 @@ export interface FileRouteTypes {
     | '/tests'
     | '/tests/$id/attempt'
     | '/tests/$id/result'
+    | '/admin/jobs'
+    | '/admin/students'
+    | '/admin/tests'
     | '/tests/$id'
   id:
     | '__root__'
@@ -406,11 +408,8 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/audit-logs'
     | '/_authenticated/admin/companies'
     | '/_authenticated/admin/dashboard'
-    | '/_authenticated/admin/jobs'
     | '/_authenticated/admin/notifications'
     | '/_authenticated/admin/settings'
-    | '/_authenticated/admin/students'
-    | '/_authenticated/admin/tests'
     | '/_authenticated/jobs/$id'
     | '/_authenticated/account/'
     | '/_authenticated/admin/'
@@ -418,6 +417,9 @@ export interface FileRouteTypes {
     | '/_authenticated/tests/'
     | '/_authenticated/tests/$id/attempt'
     | '/_authenticated/tests/$id/result'
+    | '/_authenticated/admin/jobs/'
+    | '/_authenticated/admin/students/'
+    | '/_authenticated/admin/tests/'
     | '/_authenticated/tests/$id/'
   fileRoutesById: FileRoutesById
 }
@@ -579,13 +581,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminDashboardRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
-    '/_authenticated/admin/jobs': {
-      id: '/_authenticated/admin/jobs'
-      path: '/jobs'
-      fullPath: '/admin/jobs'
-      preLoaderRoute: typeof AuthenticatedAdminJobsRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
     '/_authenticated/admin/notifications': {
       id: '/_authenticated/admin/notifications'
       path: '/notifications'
@@ -598,20 +593,6 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/admin/settings'
       preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/students': {
-      id: '/_authenticated/admin/students'
-      path: '/students'
-      fullPath: '/admin/students'
-      preLoaderRoute: typeof AuthenticatedAdminStudentsRouteImport
-      parentRoute: typeof AuthenticatedAdminRoute
-    }
-    '/_authenticated/admin/tests': {
-      id: '/_authenticated/admin/tests'
-      path: '/tests'
-      fullPath: '/admin/tests'
-      preLoaderRoute: typeof AuthenticatedAdminTestsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/jobs/': {
@@ -634,6 +615,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/tests/'
       preLoaderRoute: typeof AuthenticatedTestsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/jobs/': {
+      id: '/_authenticated/admin/jobs/'
+      path: '/jobs'
+      fullPath: '/admin/jobs/'
+      preLoaderRoute: typeof AuthenticatedAdminJobsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/students/': {
+      id: '/_authenticated/admin/students/'
+      path: '/students'
+      fullPath: '/admin/students/'
+      preLoaderRoute: typeof AuthenticatedAdminStudentsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/tests/': {
+      id: '/_authenticated/admin/tests/'
+      path: '/tests'
+      fullPath: '/admin/tests/'
+      preLoaderRoute: typeof AuthenticatedAdminTestsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/tests/$id/': {
       id: '/_authenticated/tests/$id/'
@@ -666,12 +668,12 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAuditLogsRoute: typeof AuthenticatedAdminAuditLogsRoute
   AuthenticatedAdminCompaniesRoute: typeof AuthenticatedAdminCompaniesRoute
   AuthenticatedAdminDashboardRoute: typeof AuthenticatedAdminDashboardRoute
-  AuthenticatedAdminJobsRoute: typeof AuthenticatedAdminJobsRoute
   AuthenticatedAdminNotificationsRoute: typeof AuthenticatedAdminNotificationsRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
-  AuthenticatedAdminStudentsRoute: typeof AuthenticatedAdminStudentsRoute
-  AuthenticatedAdminTestsRoute: typeof AuthenticatedAdminTestsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminJobsIndexRoute: typeof AuthenticatedAdminJobsIndexRoute
+  AuthenticatedAdminStudentsIndexRoute: typeof AuthenticatedAdminStudentsIndexRoute
+  AuthenticatedAdminTestsIndexRoute: typeof AuthenticatedAdminTestsIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
@@ -681,12 +683,12 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAuditLogsRoute: AuthenticatedAdminAuditLogsRoute,
   AuthenticatedAdminCompaniesRoute: AuthenticatedAdminCompaniesRoute,
   AuthenticatedAdminDashboardRoute: AuthenticatedAdminDashboardRoute,
-  AuthenticatedAdminJobsRoute: AuthenticatedAdminJobsRoute,
   AuthenticatedAdminNotificationsRoute: AuthenticatedAdminNotificationsRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
-  AuthenticatedAdminStudentsRoute: AuthenticatedAdminStudentsRoute,
-  AuthenticatedAdminTestsRoute: AuthenticatedAdminTestsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminJobsIndexRoute: AuthenticatedAdminJobsIndexRoute,
+  AuthenticatedAdminStudentsIndexRoute: AuthenticatedAdminStudentsIndexRoute,
+  AuthenticatedAdminTestsIndexRoute: AuthenticatedAdminTestsIndexRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =

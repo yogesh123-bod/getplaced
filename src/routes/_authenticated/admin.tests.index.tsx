@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { downloadCsv } from "@/lib/format";
 
-export const Route = createFileRoute("/_authenticated/admin/tests")({
+export const Route = createFileRoute("/_authenticated/admin/tests/")({
   head: () => ({
     meta: [
       { title: "Tests — Placement Cell" },
