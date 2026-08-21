@@ -23,6 +23,7 @@ import { Route as AuthenticatedResumeRouteImport } from './routes/_authenticated
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AuthenticatedAccountIndexRouteImport } from './routes/_authenticated/account.index'
 import { Route as AuthenticatedAccountEditRouteImport } from './routes/_authenticated/account.edit'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
 import { Route as AuthenticatedAdminAnnouncementsRouteImport } from './routes/_authenticated/admin.announcements'
 import { Route as AuthenticatedAdminApplicationsRouteImport } from './routes/_authenticated/admin.applications'
@@ -115,6 +116,11 @@ const AuthenticatedAccountEditRoute =
     path: '/account/edit',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminAnalyticsRoute =
   AuthenticatedAdminAnalyticsRouteImport.update({
     id: '/analytics',
@@ -239,6 +245,7 @@ export interface FileRoutesByFullPath {
   '/admin/tests': typeof AuthenticatedAdminTestsRoute
   '/jobs/$id': typeof AuthenticatedJobsIdRoute
   '/account/': typeof AuthenticatedAccountIndexRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
   '/jobs/': typeof AuthenticatedJobsIndexRoute
   '/tests/': typeof AuthenticatedTestsIndexRoute
   '/tests/$id/attempt': typeof AuthenticatedTestsIdAttemptRoute
@@ -250,7 +257,6 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/applications': typeof AuthenticatedApplicationsRoute
   '/change-password': typeof AuthenticatedChangePasswordRoute
   '/home': typeof AuthenticatedHomeRoute
@@ -271,6 +277,7 @@ export interface FileRoutesByTo {
   '/admin/tests': typeof AuthenticatedAdminTestsRoute
   '/jobs/$id': typeof AuthenticatedJobsIdRoute
   '/account': typeof AuthenticatedAccountIndexRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
   '/jobs': typeof AuthenticatedJobsIndexRoute
   '/tests': typeof AuthenticatedTestsIndexRoute
   '/tests/$id/attempt': typeof AuthenticatedTestsIdAttemptRoute
@@ -305,6 +312,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/tests': typeof AuthenticatedAdminTestsRoute
   '/_authenticated/jobs/$id': typeof AuthenticatedJobsIdRoute
   '/_authenticated/account/': typeof AuthenticatedAccountIndexRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/jobs/': typeof AuthenticatedJobsIndexRoute
   '/_authenticated/tests/': typeof AuthenticatedTestsIndexRoute
   '/_authenticated/tests/$id/attempt': typeof AuthenticatedTestsIdAttemptRoute
@@ -339,6 +347,7 @@ export interface FileRouteTypes {
     | '/admin/tests'
     | '/jobs/$id'
     | '/account/'
+    | '/admin/'
     | '/jobs/'
     | '/tests/'
     | '/tests/$id/attempt'
@@ -350,7 +359,6 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/reset-password'
-    | '/admin'
     | '/applications'
     | '/change-password'
     | '/home'
@@ -371,6 +379,7 @@ export interface FileRouteTypes {
     | '/admin/tests'
     | '/jobs/$id'
     | '/account'
+    | '/admin'
     | '/jobs'
     | '/tests'
     | '/tests/$id/attempt'
@@ -404,6 +413,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/tests'
     | '/_authenticated/jobs/$id'
     | '/_authenticated/account/'
+    | '/_authenticated/admin/'
     | '/_authenticated/jobs/'
     | '/_authenticated/tests/'
     | '/_authenticated/tests/$id/attempt'
@@ -519,6 +529,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/account/edit'
       preLoaderRoute: typeof AuthenticatedAccountEditRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/analytics': {
       id: '/_authenticated/admin/analytics'
@@ -654,6 +671,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
   AuthenticatedAdminStudentsRoute: typeof AuthenticatedAdminStudentsRoute
   AuthenticatedAdminTestsRoute: typeof AuthenticatedAdminTestsRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
@@ -668,6 +686,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
   AuthenticatedAdminStudentsRoute: AuthenticatedAdminStudentsRoute,
   AuthenticatedAdminTestsRoute: AuthenticatedAdminTestsRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =
