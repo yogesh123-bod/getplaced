@@ -48,6 +48,7 @@ export type Database = {
       }
       announcements: {
         Row: {
+          attachment_url: string | null
           author_name: string
           company: string | null
           created_at: string
@@ -57,10 +58,13 @@ export type Database = {
           message: string
           pinned: boolean
           publish_at: string
+          status: string
           target_course: string | null
           title: string
+          updated_at: string
         }
         Insert: {
+          attachment_url?: string | null
           author_name?: string
           company?: string | null
           created_at?: string
@@ -70,10 +74,13 @@ export type Database = {
           message?: string
           pinned?: boolean
           publish_at?: string
+          status?: string
           target_course?: string | null
           title: string
+          updated_at?: string
         }
         Update: {
+          attachment_url?: string | null
           author_name?: string
           company?: string | null
           created_at?: string
@@ -83,8 +90,10 @@ export type Database = {
           message?: string
           pinned?: boolean
           publish_at?: string
+          status?: string
           target_course?: string | null
           title?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -190,27 +199,66 @@ export type Database = {
       }
       companies: {
         Row: {
+          company_type: string | null
           created_at: string
+          description: string | null
+          eligible_courses: string[]
+          email: string | null
+          hr_email: string | null
+          hr_name: string | null
           id: string
+          industry: string | null
+          is_active: boolean
+          location: string | null
           logo_color: string
+          logo_url: string | null
+          min_cgpa: number
           name: string
+          phone: string | null
           short_name: string | null
+          updated_at: string
           website: string | null
         }
         Insert: {
+          company_type?: string | null
           created_at?: string
+          description?: string | null
+          eligible_courses?: string[]
+          email?: string | null
+          hr_email?: string | null
+          hr_name?: string | null
           id?: string
+          industry?: string | null
+          is_active?: boolean
+          location?: string | null
           logo_color?: string
+          logo_url?: string | null
+          min_cgpa?: number
           name: string
+          phone?: string | null
           short_name?: string | null
+          updated_at?: string
           website?: string | null
         }
         Update: {
+          company_type?: string | null
           created_at?: string
+          description?: string | null
+          eligible_courses?: string[]
+          email?: string | null
+          hr_email?: string | null
+          hr_name?: string | null
           id?: string
+          industry?: string | null
+          is_active?: boolean
+          location?: string | null
           logo_color?: string
+          logo_url?: string | null
+          min_cgpa?: number
           name?: string
+          phone?: string | null
           short_name?: string | null
+          updated_at?: string
           website?: string | null
         }
         Relationships: []
@@ -219,9 +267,12 @@ export type Database = {
         Row: {
           branches: string[]
           company_id: string
+          courses: string[]
           created_at: string
           deadline: string
           description: string
+          doc_url: string | null
+          drive_date: string | null
           graduation_years: number[]
           id: string
           job_type: string
@@ -237,13 +288,17 @@ export type Database = {
           status: string
           title: string
           updated_at: string
+          work_mode: string
         }
         Insert: {
           branches?: string[]
           company_id: string
+          courses?: string[]
           created_at?: string
           deadline?: string
           description?: string
+          doc_url?: string | null
+          drive_date?: string | null
           graduation_years?: number[]
           id?: string
           job_type?: string
@@ -259,13 +314,17 @@ export type Database = {
           status?: string
           title: string
           updated_at?: string
+          work_mode?: string
         }
         Update: {
           branches?: string[]
           company_id?: string
+          courses?: string[]
           created_at?: string
           deadline?: string
           description?: string
+          doc_url?: string | null
+          drive_date?: string | null
           graduation_years?: number[]
           id?: string
           job_type?: string
@@ -281,6 +340,7 @@ export type Database = {
           status?: string
           title?: string
           updated_at?: string
+          work_mode?: string
         }
         Relationships: [
           {
@@ -299,6 +359,7 @@ export type Database = {
           id: string
           is_read: boolean
           link: string | null
+          scheduled_at: string | null
           title: string
           type: string
           user_id: string
@@ -309,6 +370,7 @@ export type Database = {
           id?: string
           is_read?: boolean
           link?: string | null
+          scheduled_at?: string | null
           title: string
           type?: string
           user_id: string
@@ -319,6 +381,7 @@ export type Database = {
           id?: string
           is_read?: boolean
           link?: string | null
+          scheduled_at?: string | null
           title?: string
           type?: string
           user_id?: string
@@ -503,6 +566,8 @@ export type Database = {
           correct_option: string
           explanation: string | null
           id: string
+          marks: number
+          negative_marks: number
           option_a: string
           option_b: string
           option_c: string
@@ -515,6 +580,8 @@ export type Database = {
           correct_option: string
           explanation?: string | null
           id?: string
+          marks?: number
+          negative_marks?: number
           option_a: string
           option_b: string
           option_c: string
@@ -527,6 +594,8 @@ export type Database = {
           correct_option?: string
           explanation?: string | null
           id?: string
+          marks?: number
+          negative_marks?: number
           option_a?: string
           option_b?: string
           option_c?: string
@@ -547,34 +616,55 @@ export type Database = {
       }
       tests: {
         Row: {
+          attempts_allowed: number
           category: string
           course: string | null
           created_at: string
+          description: string | null
           difficulty: string
           duration_min: number
+          end_at: string | null
           id: string
           name: string
+          negative_marking: number
+          passing_marks: number
           published: boolean
+          start_at: string | null
+          total_marks: number
         }
         Insert: {
+          attempts_allowed?: number
           category?: string
           course?: string | null
           created_at?: string
+          description?: string | null
           difficulty?: string
           duration_min?: number
+          end_at?: string | null
           id?: string
           name: string
+          negative_marking?: number
+          passing_marks?: number
           published?: boolean
+          start_at?: string | null
+          total_marks?: number
         }
         Update: {
+          attempts_allowed?: number
           category?: string
           course?: string | null
           created_at?: string
+          description?: string | null
           difficulty?: string
           duration_min?: number
+          end_at?: string | null
           id?: string
           name?: string
+          negative_marking?: number
+          passing_marks?: number
           published?: boolean
+          start_at?: string | null
+          total_marks?: number
         }
         Relationships: []
       }
