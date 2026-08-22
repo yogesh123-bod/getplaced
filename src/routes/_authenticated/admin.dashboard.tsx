@@ -56,6 +56,7 @@ function AdminDashboard() {
           supabase.from("audit_logs").select("action, details, created_at").order("created_at", { ascending: false }).limit(6),
         ]);
       if (students.error) throw students.error;
+      const nameByUser = new Map((students.data ?? []).map((s) => [s.user_id, s.full_name]));
       return {
         students: students.data ?? [],
         companies: companies.data ?? [],
@@ -63,13 +64,16 @@ function AdminDashboard() {
         applications: applications.data ?? [],
         tests: tests.data ?? [],
         attempts: attempts.data ?? [],
-        recentApps: (recentApps.data ?? []) as unknown as {
+        recentApps: ((recentApps.data ?? []) as unknown as {
           id: string;
           status: string;
           applied_at: string;
-          student_profiles: { full_name: string } | null;
+          user_id: string;
           jobs: { title: string; companies: { name: string } | null } | null;
-        }[],
+        }[]).map((a) => ({
+          ...a,
+          student_profiles: { full_name: nameByUser.get(a.user_id) ?? "Student" },
+        })),
         recentStudents: recentStudents.data ?? [],
         logs: logs.data ?? [],
       };
