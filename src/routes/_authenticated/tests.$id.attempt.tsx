@@ -1,9 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Flag, Timer } from "lucide-react";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { getTestQuestions, submitTestAttempt } from "@/lib/tests.functions";
 import { useSession } from "@/lib/session";
 import { mmss } from "@/lib/format";
 import { Button } from "@/components/ui/button";
