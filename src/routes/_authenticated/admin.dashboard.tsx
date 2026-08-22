@@ -45,7 +45,7 @@ function AdminDashboard() {
           supabase.from("test_attempts").select("id, percentage, submitted_at, user_id"),
           supabase
             .from("applications")
-            .select("id, status, applied_at, student_profiles!inner(full_name), jobs(title, companies(name))")
+            .select("id, status, applied_at, user_id, jobs(title, companies(name))")
             .order("applied_at", { ascending: false })
             .limit(6),
           supabase
