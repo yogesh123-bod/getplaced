@@ -33,30 +33,12 @@ function ResultPage() {
   const { session } = useSession();
   const navigate = useNavigate();
   const [showAnswers, setShowAnswers] = useState(false);
+  const loadReview = useServerFn(getAttemptReview);
 
   const { data, isLoading } = useQuery({
     queryKey: ["test-result", id, attempt, session.userId],
     enabled: !!session.userId,
-    queryFn: async () => {
-      const base = supabase.from("test_attempts").select("*");
-      const { data: attempts, error } = attempt
-        ? await base.eq("id", attempt).limit(1)
-        : await base
-            .eq("user_id", session.userId!)
-            .eq("test_id", id)
-            .not("submitted_at", "is", null)
-            .order("submitted_at", { ascending: false })
-            .limit(1);
-      if (error) throw error;
-      const row = attempts?.[0];
-      if (!row) return null;
-      const [{ data: answers }, { data: questions }, { data: test }] = await Promise.all([
-        supabase.from("test_answers").select("*").eq("attempt_id", row.id),
-        supabase.from("test_questions").select("*").eq("test_id", id).order("position"),
-        supabase.from("tests").select("name, category").eq("id", id).maybeSingle(),
-      ]);
-      return { attempt: row, answers: answers ?? [], questions: questions ?? [], test };
-    },
+    queryFn: () => loadReview({ data: { testId: id, attemptId: attempt ?? null } }),
   });
 
   if (isLoading) {
