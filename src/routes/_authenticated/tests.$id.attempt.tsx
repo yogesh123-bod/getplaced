@@ -1,9 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Flag, Timer } from "lucide-react";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import { getTestQuestions, submitTestAttempt } from "@/lib/tests.functions";
 import { useSession } from "@/lib/session";
 import { mmss } from "@/lib/format";
 import { Button } from "@/components/ui/button";
@@ -37,6 +38,8 @@ function AttemptPage() {
   const { session } = useSession();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const loadQuestions = useServerFn(getTestQuestions);
+  const submitAttempt = useServerFn(submitTestAttempt);
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [remaining, setRemaining] = useState<number | null>(null);
@@ -46,15 +49,7 @@ function AttemptPage() {
 
   const { data, isLoading } = useQuery({
     queryKey: ["test-attempt-data", id],
-    queryFn: async () => {
-      const [{ data: test, error: testError }, { data: questions, error: qError }] = await Promise.all([
-        supabase.from("tests").select("*").eq("id", id).maybeSingle(),
-        supabase.from("test_questions").select("*").eq("test_id", id).order("position"),
-      ]);
-      if (testError) throw testError;
-      if (qError) throw qError;
-      return { test, questions: questions ?? [] };
-    },
+    queryFn: () => loadQuestions({ data: { testId: id } }),
   });
 
   useEffect(() => {
@@ -65,45 +60,17 @@ function AttemptPage() {
     mutationFn: async () => {
       const questions = data?.questions ?? [];
       if (!session.userId || !questions.length) throw new Error("Test not ready");
-      let correct = 0;
-      let incorrect = 0;
-      let unanswered = 0;
-      questions.forEach((q) => {
-        const selected = answers[q.id]?.selected ?? null;
-        if (!selected) unanswered++;
-        else if (selected === q.correct_option) correct++;
-        else incorrect++;
+      return submitAttempt({
+        data: {
+          testId: id,
+          timeTakenSec: Math.round((Date.now() - startedAt.current) / 1000),
+          answers: questions.map((q) => ({
+            questionId: q.id,
+            selected: (answers[q.id]?.selected ?? null) as "A" | "B" | "C" | "D" | null,
+            marked: answers[q.id]?.marked ?? false,
+          })),
+        },
       });
-      const total = questions.length;
-      const attempted = correct + incorrect;
-      const timeTaken = Math.round((Date.now() - startedAt.current) / 1000);
-      const { data: attempt, error } = await supabase
-        .from("test_attempts")
-        .insert({
-          test_id: id,
-          user_id: session.userId,
-          total_questions: total,
-          correct_count: correct,
-          incorrect_count: incorrect,
-          unanswered_count: unanswered,
-          percentage: total ? (correct / total) * 100 : 0,
-          accuracy: attempted ? (correct / attempted) * 100 : 0,
-          time_taken_sec: timeTaken,
-          submitted_at: new Date().toISOString(),
-        })
-        .select("id")
-        .single();
-      if (error) throw error;
-      const rows = questions.map((q) => ({
-        attempt_id: attempt.id,
-        question_id: q.id,
-        selected_option: answers[q.id]?.selected ?? null,
-        is_correct: (answers[q.id]?.selected ?? null) === q.correct_option,
-        marked_for_review: answers[q.id]?.marked ?? false,
-      }));
-      const { error: answerError } = await supabase.from("test_answers").insert(rows);
-      if (answerError) throw answerError;
-      return attempt.id;
     },
     onSuccess: (attemptId) => {
       toast.success("Test submitted successfully.");

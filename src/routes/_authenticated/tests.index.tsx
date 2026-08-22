@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { useMemo, useState } from "react";
 import { Clock, ListChecks, Target } from "lucide-react";
 import { StudentShell, PageHeader, NotificationBell } from "@/components/placement/StudentShell";
 import { supabase } from "@/integrations/supabase/client";
+import { getQuestionCounts } from "@/lib/tests.functions";
 import { useSession } from "@/lib/session";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -36,13 +38,19 @@ export const CATEGORIES = [
 function TestCenterPage() {
   const { session } = useSession();
   const [tab, setTab] = useState("All");
+  const loadCounts = useServerFn(getQuestionCounts);
+
+  const counts = useQuery({
+    queryKey: ["test-question-counts"],
+    queryFn: () => loadCounts({}),
+  });
 
   const tests = useQuery({
     queryKey: ["tests", session.profile?.course],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("tests")
-        .select("*, test_questions(id)")
+        .select("*")
         .eq("published", true)
         .order("category");
       if (error) throw error;
@@ -119,7 +127,7 @@ function TestCenterPage() {
             </div>
           ) : (
             visible.map((t) => {
-              const questionCount = (t.test_questions as { id: string }[] | null)?.length ?? 0;
+              const questionCount = counts.data?.[t.id] ?? 0;
               const mine = (attempts.data ?? []).filter((a) => a.test_id === t.id);
               const best = mine.length ? Math.max(...mine.map((a) => Number(a.percentage))) : null;
               return (

@@ -1,8 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { ArrowLeft, Clock, ListChecks, TrendingUp } from "lucide-react";
 import { StudentShell, PageHeader } from "@/components/placement/StudentShell";
 import { supabase } from "@/integrations/supabase/client";
+import { getQuestionCounts } from "@/lib/tests.functions";
 import { useSession } from "@/lib/session";
 import { shortDate } from "@/lib/format";
 import { Button } from "@/components/ui/button";
@@ -25,12 +27,18 @@ function TestOverviewPage() {
   const { session } = useSession();
   const navigate = useNavigate();
 
+  const loadCounts = useServerFn(getQuestionCounts);
+  const counts = useQuery({
+    queryKey: ["test-question-counts"],
+    queryFn: () => loadCounts({}),
+  });
+
   const test = useQuery({
     queryKey: ["test", id],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("tests")
-        .select("*, test_questions(id)")
+        .select("*")
         .eq("id", id)
         .maybeSingle();
       if (error) throw error;
@@ -66,7 +74,7 @@ function TestOverviewPage() {
   }
 
   const t = test.data;
-  const questionCount = (t.test_questions as { id: string }[] | null)?.length ?? 0;
+  const questionCount = counts.data?.[t.id] ?? 0;
   const list = attempts.data ?? [];
   const best = list.length ? Math.max(...list.map((a) => Number(a.percentage))) : null;
 
